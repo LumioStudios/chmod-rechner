@@ -1,0 +1,193 @@
+<!-- Lumio Studios · chmod-Rechner
+     Einbinden in WordPress: Block "Individuelles HTML" -> kompletten Inhalt einfügen.
+     Alles ist unter #lumio-chmod gekapselt und beeinflusst das Theme nicht. -->
+<div id="lumio-chmod">
+<style>
+#lumio-chmod{--bg:#0d1117;--panel:#161b22;--line:#30363d;--fg:#c9d1d9;--dim:#8b949e;--accent:#3fb950;--accent2:#58a6ff;--warn:#f0883e;--err:#f85149;
+  font-family:"JetBrains Mono","Fira Code",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--fg);background:var(--bg);
+  border:1px solid var(--line);border-radius:10px;max-width:760px;margin:1.5em auto;overflow:hidden;font-size:15px;line-height:1.5;box-sizing:border-box}
+#lumio-chmod *{box-sizing:border-box}
+#lumio-chmod .lc-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--panel);border-bottom:1px solid var(--line);font-size:13px;color:var(--dim)}
+#lumio-chmod .lc-dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+#lumio-chmod .lc-body{padding:18px}
+#lumio-chmod .lc-prompt{color:var(--accent)}
+#lumio-chmod .lc-prompt b{color:var(--accent2);font-weight:normal}
+#lumio-chmod .lc-inputs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+#lumio-chmod label.lc-lbl{display:block;font-size:12px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+#lumio-chmod input[type=text]{width:100%;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:10px 12px;font:inherit;font-size:20px;letter-spacing:.08em;outline:none}
+#lumio-chmod input[type=text]:focus{border-color:var(--accent2)}
+#lumio-chmod input.lc-bad{border-color:var(--err)}
+#lumio-chmod table{width:100%;border-collapse:collapse;margin:8px 0 4px}
+#lumio-chmod th,#lumio-chmod td{border:1px solid var(--line);padding:8px 6px;text-align:center;font-size:14px}
+#lumio-chmod th{background:var(--panel);color:var(--dim);font-weight:normal}
+#lumio-chmod td.lc-row{text-align:left;color:var(--accent2);white-space:nowrap}
+#lumio-chmod td.lc-oct{color:var(--accent);font-weight:bold;font-size:17px}
+#lumio-chmod .lc-cb{appearance:none;-webkit-appearance:none;width:22px;height:22px;border:1px solid var(--line);border-radius:4px;background:var(--bg);cursor:pointer;vertical-align:middle;position:relative;margin:0}
+#lumio-chmod .lc-cb:checked{background:var(--accent);border-color:var(--accent)}
+#lumio-chmod .lc-cb:checked::after{content:"";position:absolute;left:7px;top:3px;width:5px;height:10px;border:solid var(--bg);border-width:0 2px 2px 0;transform:rotate(45deg)}
+#lumio-chmod .lc-cb:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
+#lumio-chmod .lc-special{display:flex;flex-wrap:wrap;gap:16px;margin:12px 0;font-size:14px}
+#lumio-chmod .lc-special label{display:flex;align-items:center;gap:8px;cursor:pointer}
+#lumio-chmod .lc-special small{color:var(--dim)}
+#lumio-chmod .lc-out{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin-top:14px}
+#lumio-chmod .lc-cmd{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#lumio-chmod .lc-cmd code{flex:1;min-width:0;font:inherit;font-size:17px;color:var(--fg);word-break:break-all}
+#lumio-chmod .lc-cmd input{font-size:15px;padding:4px 8px;width:auto;flex:0 1 180px;letter-spacing:0}
+#lumio-chmod button{font:inherit;font-size:13px;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:6px 12px;cursor:pointer}
+#lumio-chmod button:hover{border-color:var(--accent);color:var(--accent)}
+#lumio-chmod .lc-ls{color:var(--dim);margin-top:8px;font-size:14px;word-break:break-all}
+#lumio-chmod .lc-ls span{color:var(--fg)}
+#lumio-chmod .lc-presets{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+#lumio-chmod .lc-presets button span{color:var(--dim)}
+#lumio-chmod .lc-explain{margin-top:12px;font-size:14px;color:var(--dim)}
+#lumio-chmod .lc-explain ul{margin:6px 0 0;padding-left:18px}
+#lumio-chmod .lc-warn{color:var(--warn);margin-top:8px;font-size:14px;display:none}
+#lumio-chmod .lc-cursor{display:inline-block;width:8px;height:1em;background:var(--accent);vertical-align:text-bottom;animation:lcblink 1s steps(1) infinite}
+@keyframes lcblink{50%{opacity:0}}
+@media (max-width:560px){#lumio-chmod .lc-inputs{grid-template-columns:1fr}#lumio-chmod .lc-body{padding:14px}#lumio-chmod th,#lumio-chmod td{padding:6px 3px;font-size:12px}}
+</style>
+
+<div class="lc-bar">
+  <span class="lc-dot" style="background:#ff5f56"></span><span class="lc-dot" style="background:#ffbd2e"></span><span class="lc-dot" style="background:#27c93f"></span>
+  <span style="margin-left:8px">~/tools/chmod-rechner</span>
+</div>
+
+<div class="lc-body">
+  <div><span class="lc-prompt">marco@lumio<b>:~$</b></span> chmod --rechner <span class="lc-cursor"></span></div>
+
+  <div class="lc-inputs">
+    <div>
+      <label class="lc-lbl" for="lc-num">Oktal (numerisch)</label>
+      <input type="text" id="lc-num" value="755" maxlength="4" inputmode="numeric" autocomplete="off" spellcheck="false">
+    </div>
+    <div>
+      <label class="lc-lbl" for="lc-sym">Symbolisch</label>
+      <input type="text" id="lc-sym" value="rwxr-xr-x" maxlength="9" autocomplete="off" spellcheck="false">
+    </div>
+  </div>
+
+  <table aria-label="Berechtigungen">
+    <thead><tr><th></th><th>Lesen (r)<br>4</th><th>Schreiben (w)<br>2</th><th>Ausführen (x)<br>1</th><th>Wert</th></tr></thead>
+    <tbody>
+      <tr><td class="lc-row">Besitzer (u)</td><td><input type="checkbox" class="lc-cb" data-w="0" data-b="4" aria-label="Besitzer lesen"></td><td><input type="checkbox" class="lc-cb" data-w="0" data-b="2" aria-label="Besitzer schreiben"></td><td><input type="checkbox" class="lc-cb" data-w="0" data-b="1" aria-label="Besitzer ausführen"></td><td class="lc-oct" id="lc-o0">0</td></tr>
+      <tr><td class="lc-row">Gruppe (g)</td><td><input type="checkbox" class="lc-cb" data-w="1" data-b="4" aria-label="Gruppe lesen"></td><td><input type="checkbox" class="lc-cb" data-w="1" data-b="2" aria-label="Gruppe schreiben"></td><td><input type="checkbox" class="lc-cb" data-w="1" data-b="1" aria-label="Gruppe ausführen"></td><td class="lc-oct" id="lc-o1">0</td></tr>
+      <tr><td class="lc-row">Andere (o)</td><td><input type="checkbox" class="lc-cb" data-w="2" data-b="4" aria-label="Andere lesen"></td><td><input type="checkbox" class="lc-cb" data-w="2" data-b="2" aria-label="Andere schreiben"></td><td><input type="checkbox" class="lc-cb" data-w="2" data-b="1" aria-label="Andere ausführen"></td><td class="lc-oct" id="lc-o2">0</td></tr>
+    </tbody>
+  </table>
+
+  <div class="lc-special">
+    <label><input type="checkbox" class="lc-cb lc-sp" data-b="4"> SetUID <small>(4)</small></label>
+    <label><input type="checkbox" class="lc-cb lc-sp" data-b="2"> SetGID <small>(2)</small></label>
+    <label><input type="checkbox" class="lc-cb lc-sp" data-b="1"> Sticky-Bit <small>(1)</small></label>
+  </div>
+
+  <div class="lc-out">
+    <div class="lc-cmd">
+      <code id="lc-cmd">chmod 755 datei</code>
+      <input type="text" id="lc-file" value="datei" aria-label="Datei- oder Ordnername" spellcheck="false">
+      <button type="button" id="lc-copy">Kopieren</button>
+    </div>
+    <div class="lc-ls">ls -l → <span id="lc-ls">-rwxr-xr-x</span></div>
+    <div class="lc-warn" id="lc-warn"></div>
+  </div>
+
+  <div class="lc-presets" aria-label="Häufige Werte">
+    <button type="button" data-p="644">644 <span>Dateien</span></button>
+    <button type="button" data-p="755">755 <span>Ordner/Skripte</span></button>
+    <button type="button" data-p="600">600 <span>privat</span></button>
+    <button type="button" data-p="700">700 <span>privater Ordner</span></button>
+    <button type="button" data-p="640">640 <span>wp-config.php</span></button>
+    <button type="button" data-p="1777">1777 <span>/tmp</span></button>
+  </div>
+
+  <div class="lc-explain" id="lc-explain"></div>
+</div>
+
+<script>
+(function(){
+  var root=document.getElementById('lumio-chmod'); if(!root) return;
+  var $=function(s){return root.querySelector(s)}, $$=function(s){return root.querySelectorAll(s)};
+  var num=$('#lc-num'), sym=$('#lc-sym'), file=$('#lc-file'), cmd=$('#lc-cmd'), ls=$('#lc-ls'), warn=$('#lc-warn'), ex=$('#lc-explain');
+  var perm=[0,0,0], special=0;
+  var who=['Besitzer','Gruppe','Andere'];
+
+  function symbolic(){
+    var s='';
+    for(var i=0;i<3;i++){
+      var p=perm[i];
+      s+=(p&4?'r':'-')+(p&2?'w':'-');
+      var x=p&1, sp=(i===0&&special&4)||(i===1&&special&2)||(i===2&&special&1);
+      var ch=i===2?'t':'s';
+      s+= sp ? (x?ch:ch.toUpperCase()) : (x?'x':'-');
+    }
+    return s;
+  }
+  function octal(){ return (special?String(special):'')+perm.join(''); }
+  function words(p){
+    var a=[]; if(p&4)a.push('lesen'); if(p&2)a.push('schreiben'); if(p&1)a.push('ausführen');
+    return a.length?a.join(', '):'keine Rechte';
+  }
+  function render(src){
+    if(src!=='num'){ num.value=octal(); num.classList.remove('lc-bad'); }
+    if(src!=='sym'){ sym.value=symbolic(); sym.classList.remove('lc-bad'); }
+    $$('.lc-cb[data-w]').forEach(function(c){ c.checked=!!(perm[+c.dataset.w]&+c.dataset.b); });
+    $$('.lc-sp').forEach(function(c){ c.checked=!!(special&+c.dataset.b); });
+    for(var i=0;i<3;i++) $('#lc-o'+i).textContent=perm[i];
+    var f=(file.value.trim()||'datei');
+    if(/[\s'"$`\\]/.test(f)) f="'"+f.replace(/'/g,"'\\''")+"'";
+    cmd.textContent='chmod '+octal()+' '+f;
+    ls.textContent='-'+symbolic();
+    var h='<ul>';
+    for(var j=0;j<3;j++) h+='<li><span style="color:var(--accent2)">'+who[j]+'</span>: '+words(perm[j])+'</li>';
+    if(special&4) h+='<li>SetUID: Programm läuft mit den Rechten des Besitzers</li>';
+    if(special&2) h+='<li>SetGID: läuft mit Gruppenrechten bzw. neue Dateien im Ordner erben die Gruppe</li>';
+    if(special&1) h+='<li>Sticky-Bit: im Ordner darf nur der Besitzer eigene Dateien löschen</li>';
+    ex.innerHTML=h+'</ul>';
+    var w=[];
+    if(perm[2]&2) w.push('Achtung: Jeder auf dem System darf schreiben (o+w). Für Webserver-Dateien fast nie sinnvoll.');
+    if(special&4 && !(perm[0]&1)) w.push('SetUID ohne Ausführrecht des Besitzers wirkt nicht (großes S).');
+    warn.innerHTML=w.join('<br>'); warn.style.display=w.length?'block':'none';
+  }
+
+  $$('.lc-cb[data-w]').forEach(function(c){ c.addEventListener('change',function(){
+    perm[+c.dataset.w]^=+c.dataset.b; render(); }); });
+  $$('.lc-sp').forEach(function(c){ c.addEventListener('change',function(){
+    special^=+c.dataset.b; render(); }); });
+
+  num.addEventListener('input',function(){
+    var v=num.value.trim();
+    if(!/^[0-7]{3,4}$/.test(v)){ num.classList.toggle('lc-bad',v.length>0); return; }
+    num.classList.remove('lc-bad');
+    if(v.length===4){ special=+v[0]; v=v.slice(1); } else special=0;
+    perm=[+v[0],+v[1],+v[2]]; render('num');
+  });
+  sym.addEventListener('input',function(){
+    var v=sym.value.trim();
+    if(v.length===10 && /^[-dlbcps]/.test(v)) v=v.slice(1);
+    if(!/^[r-][w-][xsS-][r-][w-][xsS-][r-][w-][xtT-]$/.test(v)){ sym.classList.toggle('lc-bad',v.length>0); return; }
+    sym.classList.remove('lc-bad');
+    perm=[0,0,0]; special=0;
+    for(var i=0;i<3;i++){
+      var t=v.substr(i*3,3);
+      if(t[0]==='r')perm[i]|=4; if(t[1]==='w')perm[i]|=2;
+      if(/[xst]/.test(t[2]))perm[i]|=1;
+      if(/[sStT]/.test(t[2])) special|=[4,2,1][i];
+    }
+    render('sym');
+  });
+  file.addEventListener('input',function(){ render(); });
+  $$('.lc-presets button').forEach(function(b){ b.addEventListener('click',function(){
+    num.value=b.dataset.p; num.dispatchEvent(new Event('input')); render(); }); });
+
+  $('#lc-copy').addEventListener('click',function(){
+    var t=cmd.textContent, btn=this;
+    function ok(){ btn.textContent='Kopiert ✓'; setTimeout(function(){btn.textContent='Kopieren';},1500); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(ok,fallback); } else fallback();
+    function fallback(){ var ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select();
+      try{document.execCommand('copy');ok();}catch(e){} document.body.removeChild(ta); }
+  });
+
+  perm=[7,5,5]; render();
+})();
+</script>
+</div>
