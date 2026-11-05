@@ -2,7 +2,7 @@
 
 Interaktiver Rechner für Linux-Dateirechte, im Terminal-Look von [Lumio Studios](https://lumio-studios.de).
 
-**Live:** https://DEIN-GITHUB-NAME.github.io/chmod-rechner/
+   **Live:** https://lumiostudios.github.io/chmod-rechner/
 
 ## Funktionen
 
